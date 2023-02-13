@@ -8,8 +8,13 @@ public class Login {
 
     private enum Using {
         LOGIN(By.id("navbarLoginButton")),
-        NEW_CUSTOMER_LINK(By.id("newCustomerLink"));
+        NEW_CUSTOMER_LINK(By.id("newCustomerLink")),
 
+        CUSTOMER_EMAIL(By.id("login-form")),
+
+        CUSTOMER_PASSWORD(By.id("password")),
+
+        LOGIN_BUTTON(By.id("loginButton"));
         public final By selector;
 
         Using(By selector){ this.selector = selector;}
@@ -32,5 +37,11 @@ public class Login {
         clickLoginLink();
         Actions Builder = new Actions(driver);
         Builder.moveToElement(driver.findElement(Using.NEW_CUSTOMER_LINK.selector)).build().perform();
+    }
+
+    public void LoginCorrect(){
+       clickLoginLink();
+       Actions builder = new Actions(driver);
+       builder.moveToElement(driver.findElement(Using.CUSTOMER_EMAIL.selector)).sendKeys();
     }
 }
