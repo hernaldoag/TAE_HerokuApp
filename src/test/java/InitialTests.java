@@ -6,8 +6,11 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pom.address.Address;
+import pom.address.SelectAddress;
 import pom.constants.Credentials;
 import pom.login.Login;
+import pom.payment.PaymentOptions;
 
 import java.time.Duration;
 
@@ -60,16 +63,11 @@ public class InitialTests {
         Thread.sleep(1000);
         WebElement dismiss = driver.findElement(By.cssSelector("#mat-dialog-0 > app-welcome-banner > div > div:nth-child(3) > button.mat-focus-indicator.close-dialog.mat-raised-button.mat-button-base.mat-primary.ng-star-inserted"));
         dismiss.click();
-
         WebElement account = driver.findElement(By.id("navbarAccount"));
         jse.executeScript("arguments[0].click()", account);
-        //Actions action = new Actions(driver);
-        //action.moveToElement(account).perform();
-        //WebDriverWait(driver, 90).until(EC.element_to_be_clickable((By.id, "navbarAccount"))).click()
         WebElement LoginButton = driver.findElement(By.id("navbarLoginButton"));
         LoginButton.click();
         WebElement newCustomerLink = driver.findElement(By.id("newCustomerLink"));
-        //jse.executeScript("arguments[0].click()", newCustomerLink);
         newCustomerLink.click();
         Thread.sleep(1000);
 
@@ -86,6 +84,18 @@ public class InitialTests {
         jse.executeScript("arguments[0].click()", account);
         Login testlogin = new Login(driver);
         testlogin.ClickLoginAndCreateAccount();
+    }
+
+    @Test
+    public void createAccountAndLogin() throws Exception {
+        getBaseUrl(driver);
+        WebElement dismiss = driver.findElement(By.cssSelector("#mat-dialog-0 > app-welcome-banner > div > div:nth-child(3) > button.mat-focus-indicator.close-dialog.mat-raised-button.mat-button-base.mat-primary.ng-star-inserted"));
+        dismiss.click();
+        WebElement account = driver.findElement(By.id("navbarAccount"));
+        jse.executeScript("arguments[0].click()", account);
+        Login testlogin = new Login(driver);
+        testlogin.ClickLoginAndCreateAccount();
+        testlogin.simpleLogin();
     }
 
     @Test
@@ -138,20 +148,82 @@ public class InitialTests {
         //ALl Products
         WebElement AppleJuice = driver.findElement(By.xpath("/html/body/app-root/div/mat-sidenav-container/mat-sidenav-content/app-search-result/div/div/div[2]/mat-grid-list/div/mat-grid-tile[1]/div/mat-card/div[2]/button/span[1]/span"));
         AppleJuice.click();
-
-        WebElement basket = driver.findElement(By.xpath("//span[(@class='mat-button-wrapper')]//[text(),\"Your Basket\"]"));
+        Thread.sleep(1000);
+        WebElement basket = driver.findElement(By.xpath("//*[contains(text(), 'Your Basket')]"));
         //span[(@class='mat-button-wrapper')]//[text(),"Your Basket"]
         basket.click();
-        System.out.println("BAsket was openened");
+        Thread.sleep(1000);
+        System.out.println("Basket was openened");
 
         WebElement checkout = driver.findElement(By.id("checkoutButton"));
         checkout.click();
-        WebElement addNewAddress = driver.findElement(By.linkText("/address/create"));
+        Thread.sleep(1000);
 
+        WebElement addNewAddress = driver.findElement(By.xpath("//*[@id=\"card\"]/app-address/mat-card/div/button/span[1]/span"));
+        addNewAddress.click();
+        Address address = new Address(driver);
+        address.addNewAddress(driver, "Mexico","Testy", "4141046137","90210","403 Forbiden Av", "Tequis", "El Marques");
+        Thread.sleep(1000);
+        SelectAddress selectAddress = new SelectAddress(driver);
+        selectAddress.selectAndContinue();
+        selectAddress.selectDelivery();
 
-
-
+        PaymentOptions payment = new PaymentOptions(driver);
+        payment.addNewCard(driver, "Tris Alvarez", "4700000100020003", 10,2080);
     }
 
+    //Existing User
+    @Test
+    public void LoginExistingAndStartPurchase() throws Exception {
+        getBaseUrl(driver);
+        Thread.sleep(1000);
+        WebElement dismiss = driver.findElement(By.cssSelector("#mat-dialog-0 > app-welcome-banner > div > div:nth-child(3) > button.mat-focus-indicator.close-dialog.mat-raised-button.mat-button-base.mat-primary.ng-star-inserted"));
+        dismiss.click();
+        WebElement account = driver.findElement(By.id("navbarAccount"));
+        jse.executeScript("arguments[0].click()", account);
+
+        WebElement LoginButton = driver.findElement(By.id("navbarLoginButton"));
+        LoginButton.click();
+
+        Login existingUser = new Login(driver);
+        existingUser.simpleLogin_ExistingUser();
+
+        //custom_email.sendKeys(Credentials.DEFAULT_USER.getCustomer_email());
+        //Actions action = new Actions(driver);
+        //action.moveToElement(customerEmail).build().perform();
+        //action.sendKeys(Credentials.DEFAULT_USER.getCustomer_email()).perform();
+        //customerEmail.sendKeys(Credentials.DEFAULT_USER.getCustomer_email());
+        WebElement customerPwd = driver.findElement(By.id("password"));
+        customerPwd.sendKeys(Credentials.DEFAULT_USER.getCustomer_password());
+        WebElement loginButton = driver.findElement(By.id("loginButton"));
+        loginButton.click();
+        System.out.println("Login successfull");
+        Thread.sleep(2000);
+        //ALl Products
+        WebElement AppleJuice = driver.findElement(By.xpath("/html/body/app-root/div/mat-sidenav-container/mat-sidenav-content/app-search-result/div/div/div[2]/mat-grid-list/div/mat-grid-tile[1]/div/mat-card/div[2]/button/span[1]/span"));
+        AppleJuice.click();
+        Thread.sleep(1000);
+        WebElement basket = driver.findElement(By.xpath("//*[contains(text(), 'Your Basket')]"));
+        //span[(@class='mat-button-wrapper')]//[text(),"Your Basket"]
+        basket.click();
+        Thread.sleep(1000);
+        System.out.println("Basket was openened");
+
+        WebElement checkout = driver.findElement(By.id("checkoutButton"));
+        checkout.click();
+        Thread.sleep(1000);
+
+        WebElement addNewAddress = driver.findElement(By.xpath("//*[@id=\"card\"]/app-address/mat-card/div/button/span[1]/span"));
+        addNewAddress.click();
+        Address address = new Address(driver);
+        address.addNewAddress(driver, "Mexico","Testy", "4141046137","90210","403 Forbiden Av", "Tequis", "El Marques");
+
+        SelectAddress selectAddress = new SelectAddress(driver);
+        selectAddress.selectAndContinue();
+        selectAddress.selectDelivery();
+
+        PaymentOptions payment = new PaymentOptions(driver);
+        payment.addNewCard(driver, "Tris Alvarez", "4700000100020003", 10,2080);
+    }
 
 }

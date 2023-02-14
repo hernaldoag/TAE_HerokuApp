@@ -7,13 +7,13 @@ import org.openqa.selenium.WebElement;
 public class Address {
 
     private enum Using{
-        COUNTRY(By.id("mat-input-32")),
-        NAME(By.id("mat-input-33")),
-        MOBILE_NUMBER(By.id("mat-input-34")),
-        ZIP_CODE(By.id("mat-input-35")),
+        COUNTRY(By.id("mat-input-3")),
+        NAME(By.id("mat-input-4")),
+        MOBILE_NUMBER(By.id("mat-input-5")),
+        ZIP_CODE(By.id("mat-input-6")),
         ADDRESS(By.id("address")),
-        CITY(By.id("mat-input-37")),
-        STATE(By.id("mat-input-32")),
+        CITY(By.id("mat-input-8")),
+        STATE(By.id("mat-input-9")),
         SUBMIT(By.id("submitButton"));
         public final By selector;
 
@@ -67,6 +67,11 @@ public class Address {
         stateInput.sendKeys(state);
     }
 
+    public void clickSubmit() {
+        WebElement submit = driver.findElement(Using.SUBMIT.selector);
+        submit.click();
+    }
+
 
     public void addNewAddress(WebDriver driver, String country, String name, String mobile, String zipCode, String address, String city, String state){
         enterCountry(country);
@@ -76,5 +81,7 @@ public class Address {
         enterAddress(address);
         enterCity(city);
         enterState(state);
+        clickSubmit();
+
     }
 }
