@@ -9,7 +9,7 @@ public class SelectAddress {
             SELECT(By.id("mat-radio-43")),
             CONTINUE(By.xpath("//*[@id=\"card\"]/app-address/mat-card/button/span[1]/span")),
 
-            DELIVERY(By.id("mat-radio-49-input")),
+            DELIVERY(By.id("mat-radio-44")),
             CONTINUE_DELIVERY(By.xpath("/html/body/app-root/div/mat-sidenav-container/mat-sidenav-content/app-delivery-method/mat-card/div[4]/button[2]/span[1]/mat-icon"));
             public final By selector;
             Using(By selector) {

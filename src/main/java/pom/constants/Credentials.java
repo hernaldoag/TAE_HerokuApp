@@ -2,7 +2,7 @@ package pom.constants;
 
 public enum Credentials {
 
-    DEFAULT_USER("at_juice005@auto.io", "AT_2023_at");
+    DEFAULT_USER("at_juice007@auto.io", "AT_2023_at");
 
     private final String customer_email;
 
