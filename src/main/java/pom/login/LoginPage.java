@@ -5,9 +5,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-public class Login {
+public class LoginPage {
 
     private enum Using {
+        COOKIE(By.xpath("//*[@class='cc-compliance']//a[contains (text(),'Me want it!')]")),
         LOGIN(By.id("navbarLoginButton")),
         NEW_CUSTOMER_LINK(By.id("newCustomerLink")),
 
@@ -25,7 +26,7 @@ public class Login {
     }
     public WebDriver driver;
 
-    public Login(WebDriver driver) {
+    public LoginPage(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -39,7 +40,7 @@ public class Login {
         clickLoginLink();
         Actions Builder = new Actions(driver);
         Builder.moveToElement(driver.findElement(Using.NEW_CUSTOMER_LINK.selector)).click().build().perform();
-        CreateAccount createNewAccount = new CreateAccount(driver);
+        CreateAccountPage createNewAccount = new CreateAccountPage(driver);
         Thread.sleep(1000);
         createNewAccount.createNewUser(driver,"at_juice003@auto.io","AT_2023_at","AT_2023_at",12, "60 seconds" );
     }
@@ -48,9 +49,9 @@ public class Login {
         WebElement notUser = driver.findElement(Using.NEW_CUSTOMER_LINK.selector);
         notUser.click();
         //Builder.moveToElement(driver.findElement(Using.NEW_CUSTOMER_LINK.selector)).click().build().perform();
-        CreateAccount createNewAccount = new CreateAccount(driver);
+        CreateAccountPage createNewAccount = new CreateAccountPage(driver);
         Thread.sleep(1000);
-        createNewAccount.createNewUser(driver,"at_juice007@auto.io","AT_2023_at","AT_2023_at",12, "60 seconds" );
+        createNewAccount.createNewUser(driver,"at_juice010@auto.io","AT_2023_at","AT_2023_at",12, "60 seconds" );
     }
 
     public void LoginCorrect(){
@@ -70,7 +71,7 @@ public class Login {
         passwordUser.sendKeys(pwd);
     }
     public void simpleLogin(){
-        enterUserEmail("at_juice007@auto.io");
+        enterUserEmail("at_juice010@auto.io");
         enterUserPWD("AT_2023_at");
         WebElement LoginButton = driver.findElement(Using.LOGIN_BUTTON.selector);
         LoginButton.click();
@@ -83,10 +84,13 @@ public class Login {
         emailCustomer.sendKeys(email);
     }
 
-    public void simpleLogin_ExistingUser(){
-        enterUserEmail("at_juice007@auto.io");
+    public void simpleLogin_ExistingUser() throws Exception{
+        enterUserEmail("at_juice010@auto.io");
         enterUserPWD("AT_2023_at");
         WebElement LoginButton = driver.findElement(Using.LOGIN_BUTTON.selector);
         LoginButton.click();
+        Thread.sleep(2000);
+        WebElement cookie = driver.findElement(Using.COOKIE.selector);
+        cookie.click();
     }
 }

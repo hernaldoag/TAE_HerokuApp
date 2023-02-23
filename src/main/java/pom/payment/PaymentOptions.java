@@ -4,11 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import pom.address.Address;
-import pom.address.SelectAddress;
-import pom.login.CreateAccount;
-
-import java.util.List;
 
 public class PaymentOptions {
     private enum Using {
@@ -18,7 +13,7 @@ public class PaymentOptions {
         CARD_MONTH(By.id("mat-input-5")),
         CARD_YEAR(By.id("mat-input-6")),
         SUBMIT_CARD(By.id("submitButton")),
-        SELECT_CARD(By.id("mat-radio-50")),
+        SELECT_CARD_ONLY(By.id("mat-radio-45")),
         CONTINUE_BUTTON(By.xpath("/html/body/app-root/div/mat-sidenav-container/mat-sidenav-content/app-payment/mat-card/div/div[2]/button[2]/span[1]/mat-icon"));
 
        public final By selector;
@@ -93,7 +88,7 @@ public class PaymentOptions {
 
      public void selectCardAndContinue(){
 
-        WebElement selectCard = driver.findElement(Using.SELECT_CARD.selector);
+        WebElement selectCard = driver.findElement(Using.SELECT_CARD_ONLY.selector);
         selectCard.click();
 
         WebElement cardContinueButton = driver.findElement(Using.CONTINUE_BUTTON.selector);

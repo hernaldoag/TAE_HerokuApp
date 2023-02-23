@@ -3,14 +3,11 @@ package pom.login;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
-import pom.payment.PaymentOptions;
 
 import java.util.List;
-import java.util.Queue;
 
-public class CreateAccount {
+public class CreateAccountPage {
     private enum Using {
         USER_EMAIL(By.id("emailControl")),
         USER_PWD(By.id("passwordControl")),
@@ -29,7 +26,7 @@ public class CreateAccount {
     }
     public WebDriver driver;
 
-    public CreateAccount(WebDriver driver) {
+    public CreateAccountPage(WebDriver driver) {
         this.driver = driver;
     }
 

@@ -9,9 +9,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pom.address.Address;
 import pom.address.SelectAddress;
+import pom.basket.BasketPage;
 import pom.constants.Credentials;
-import pom.login.AllProducts;
-import pom.login.Login;
+import pom.login.AllProductsPage;
+import pom.login.LoginPage;
+import pom.login.MainMenuPage;
 import pom.orderSummary.Summary;
 import pom.payment.PaymentOptions;
 import utilities.useful.RandomStrings;
@@ -25,7 +27,10 @@ public class InitialTests {
 
     WebDriver driver;
     JavascriptExecutor jse;
+    MainMenuPage mainPage;
+    AllProductsPage allProductsPage;
 
+    BasketPage basketPage;
     @BeforeMethod
     public void setUp() {
         WebDriverManager.chromedriver().setup();
@@ -49,7 +54,7 @@ public class InitialTests {
     }
 
     @Test
-    public void AssertTitleNotMatching() throws Exception {
+    public void AssertTitleNotMatching(){
         getBaseUrl(driver);
         String expectedTitle = "Free QA Automation Tools For Everyone";
         String originalTitle = driver.getTitle();
@@ -58,7 +63,7 @@ public class InitialTests {
 
     }
     @Test
-    public void AssertTitleMatching() throws Exception {
+    public void AssertTitleMatching()  {
         getBaseUrl(driver);
         String expectedTitle = "OWASP Juice Shop";
         String originalTitle = driver.getTitle();
@@ -84,29 +89,15 @@ public class InitialTests {
 
     }
 
-    @Test
-    public void LoginAndCreateAccount_Login() throws Exception {
-        getBaseUrl(driver);
-        WebElement dismiss = driver.findElement(By.cssSelector("#mat-dialog-0 > app-welcome-banner > div > div:nth-child(3) > button.mat-focus-indicator.close-dialog.mat-raised-button.mat-button-base.mat-primary.ng-star-inserted"));
-        //Alert alert = driver.switchTo().alert();
-        dismiss.click();
-        //alert.dismiss();
-        WebElement account = driver.findElement(By.id("navbarAccount"));
-        jse.executeScript("arguments[0].click()", account);
-        Login testlogin = new Login(driver);
-        testlogin.ClickLoginAndCreateAccount();
-    }
 
     @Test
-    public void createAccountAndLogin() throws Exception {
+    public void createAccountAndLoginRefactor() throws Exception {
         getBaseUrl(driver);
-        WebElement dismiss = driver.findElement(By.cssSelector("#mat-dialog-0 > app-welcome-banner > div > div:nth-child(3) > button.mat-focus-indicator.close-dialog.mat-raised-button.mat-button-base.mat-primary.ng-star-inserted"));
-        dismiss.click();
-        WebElement account = driver.findElement(By.id("navbarAccount"));
-        jse.executeScript("arguments[0].click()", account);
-        Login testlogin = new Login(driver);
-        testlogin.ClickLoginAndCreateAccount();
-        testlogin.simpleLogin();
+        mainPage = new MainMenuPage(driver, jse);
+        mainPage.startLogin();
+        LoginPage testLogin = new LoginPage(driver);
+        testLogin.ClickLoginAndCreateAccount();
+        testLogin.simpleLogin();
     }
 
     @Test
@@ -178,7 +169,7 @@ public class InitialTests {
         selectAddress.selectDelivery();
 
         PaymentOptions payment = new PaymentOptions(driver);
-        payment.addNewCard(driver, "Tris Alvarez", "4700000100020003");
+        //payment.addNewCard(driver, "Tris Alvarez", "4700000100020003");
         payment.selectCardAndContinue();
         Summary orderSummary = new Summary(driver);
         orderSummary.checkoutOrder();
@@ -198,7 +189,7 @@ public class InitialTests {
         WebElement LoginButton = driver.findElement(By.id("navbarLoginButton"));
         LoginButton.click();
 
-        Login existingUser = new Login(driver);
+        LoginPage existingUser = new LoginPage(driver);
         existingUser.simpleLogin_ExistingUser();
 
         System.out.println("Login successful");
@@ -233,51 +224,161 @@ public class InitialTests {
         orderSummary.checkoutOrder();
     }
 
+    @Test
+    public void LoginExistingAndStartPurchaseMultipleItems() throws Exception {
+        getBaseUrl(driver);
+        Thread.sleep(1000);
+        mainPage = new MainMenuPage(driver, jse);
+        mainPage.startLogin();
+
+        LoginPage existingUser = new LoginPage(driver);
+        existingUser.simpleLogin_ExistingUser();
+
+        System.out.println("Login successful");
+        Thread.sleep(2000);
+        //ALl Products
+        AllProductsPage allProductsPage1 = new AllProductsPage(driver);
+        allProductsPage1.addApplePomace();
+
+        Thread.sleep(1000);
+        mainPage.openBasket();
+
+        Thread.sleep(1000);
+        System.out.println("Basket was opened");
+        basketPage = new BasketPage(driver);
+        basketPage.startCheckout();
+        Thread.sleep(1000);
+
+       // WebElement addNewAddress = driver.findElement(By.xpath("//*[@id=\"card\"]/app-address/mat-card/div/button/span[1]/span"));
+        //addNewAddress.click();
+        Address address = new Address(driver);
+        address.addNewAddress();
+        address.addNewAddress(driver, "Mexico","Testy", "4141046137","90210","403 Forbiden Av", "Tequis", "El Marques");
+
+        SelectAddress selectAddress = new SelectAddress(driver);
+        selectAddress.selectAndContinue();
+        selectAddress.selectDelivery();
+
+        PaymentOptions payment = new PaymentOptions(driver);
+        payment.addNewCard(driver, "Tris Alvarez", "4700000100020003");
+        payment.selectCardAndContinue();
+        Summary orderSummary = new Summary(driver);
+        orderSummary.checkoutOrder();
+    }
+
+
+    @Test
+    public void AddReview() throws Exception {
+        getBaseUrl(driver);
+        mainPage = new MainMenuPage(driver, jse);
+        mainPage.startLogin();
+        Thread.sleep(1000);
+        LoginPage existingUser = new LoginPage(driver);
+        existingUser.simpleLogin_ExistingUser();
+        Thread.sleep(1000);
+        AllProductsPage landing = new AllProductsPage(driver);
+        landing.viewAppleJuice();
+        Thread.sleep(1000);
+        landing.AddReviewAppleJuice();
+        landing.closeView();
+
+    }
 
     @Test
     public void LoginOpenViewAndClose() throws Exception {
         getBaseUrl(driver);
         Thread.sleep(1000);
-        WebElement dismiss = driver.findElement(By.cssSelector("#mat-dialog-0 > app-welcome-banner > div > div:nth-child(3) > button.mat-focus-indicator.close-dialog.mat-raised-button.mat-button-base.mat-primary.ng-star-inserted"));
-        dismiss.click();
-        WebElement account = driver.findElement(By.id("navbarAccount"));
-        jse.executeScript("arguments[0].click()", account);
-        WebElement LoginButton = driver.findElement(By.id("navbarLoginButton"));
-        LoginButton.click();
-        Login existingUser = new Login(driver);
-        existingUser.simpleLogin_ExistingUser();
-        System.out.println("Login successfull");
+        mainPage = new MainMenuPage(driver, jse);
+        mainPage.startLogin();
         Thread.sleep(1000);
-
-        AllProducts landing = new AllProducts(driver);
-
+        LoginPage existingUser = new LoginPage(driver);
+        existingUser.simpleLogin_ExistingUser();
+        Thread.sleep(1000);
+        AllProductsPage landing = new AllProductsPage(driver);
         landing.viewAppleJuice();
         landing.closeView();
         Thread.sleep(1000);
     }
 
     @Test
-    public void AddReview() throws Exception {
+    public void LoginOpenViewEgg() throws Exception {
         getBaseUrl(driver);
         Thread.sleep(1000);
-        WebElement dismiss = driver.findElement(By.cssSelector("#mat-dialog-0 > app-welcome-banner > div > div:nth-child(3) > button.mat-focus-indicator.close-dialog.mat-raised-button.mat-button-base.mat-primary.ng-star-inserted"));
-        dismiss.click();
-        WebElement account = driver.findElement(By.id("navbarAccount"));
-        jse.executeScript("arguments[0].click()", account);
-        WebElement LoginButton = driver.findElement(By.id("navbarLoginButton"));
-        LoginButton.click();
-        Login existingUser = new Login(driver);
+        mainPage = new MainMenuPage(driver, jse);
+        mainPage.startLogin();
+        Thread.sleep(1000);
+        LoginPage existingUser = new LoginPage(driver);
         existingUser.simpleLogin_ExistingUser();
-        System.out.println("Login successfull");
         Thread.sleep(1000);
-
-        AllProducts landing = new AllProducts(driver);
-
-        landing.viewAppleJuice();
-
+        AllProductsPage landing = new AllProductsPage(driver);
+        landing.viewItemEggFruit();
+        //landing.viewAppleJuice();
+        //landing.closeView();
         Thread.sleep(1000);
-        landing.AddReviewAppleJuice();
-
     }
 
+    @Test
+    public void testAllProductPage() throws Exception {
+        getBaseUrl(driver);
+        Thread.sleep(1000);
+        mainPage = new MainMenuPage(driver, jse);
+        mainPage.startLogin();
+
+        LoginPage existingUser = new LoginPage(driver);
+        existingUser.simpleLogin_ExistingUser();
+
+        System.out.println("Login successful");
+        Thread.sleep(2000);
+        //ALl Products
+        allProductsPage = new AllProductsPage(driver);
+        allProductsPage.addApplePomace();
+    }
+
+
+    @Test
+    public void testAllProductPageText() throws Exception {
+        getBaseUrl(driver);
+        Thread.sleep(1000);
+        mainPage = new MainMenuPage(driver, jse);
+        mainPage.startLogin();
+        Thread.sleep(1000);
+        LoginPage existingUser = new LoginPage(driver);
+        existingUser.simpleLogin_ExistingUser();
+        Thread.sleep(1000);
+        AllProductsPage landing = new AllProductsPage(driver);
+        landing.allElements();
+        //landing.viewAppleJuice();
+        //landing.closeView();
+        Thread.sleep(1000);
+    }
+
+    @Test
+    public void testAddReviewAllProductPage() throws Exception {
+        getBaseUrl(driver);
+        Thread.sleep(1000);
+        mainPage = new MainMenuPage(driver, jse);
+        mainPage.startLogin();
+        Thread.sleep(1000);
+        LoginPage existingUser = new LoginPage(driver);
+        existingUser.simpleLogin_ExistingUser();
+        Thread.sleep(1000);
+        AllProductsPage landing = new AllProductsPage(driver);
+        landing.addReviewALL();
+        Thread.sleep(1000);
+    }
+
+    @Test
+    public void AddAllToBasket() throws Exception {
+        getBaseUrl(driver);
+        Thread.sleep(1000);
+        mainPage = new MainMenuPage(driver, jse);
+        mainPage.startLogin();
+        Thread.sleep(1000);
+        LoginPage existingUser = new LoginPage(driver);
+        existingUser.simpleLogin_ExistingUser();
+        Thread.sleep(1000);
+        AllProductsPage landing = new AllProductsPage(driver);
+        landing.addAllToBasketAction();
+        Thread.sleep(1000);
+    }
 }

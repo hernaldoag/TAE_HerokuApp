@@ -6,7 +6,8 @@ import org.openqa.selenium.WebElement;
 
 public class SelectAddress {
         private enum Using {
-            SELECT(By.id("mat-radio-43")),
+            SELECT_NEW(By.id("mat-radio-41")),
+            SELECT_EXISTING(By.id("mat-radio-43")),
             CONTINUE(By.xpath("//*[@id=\"card\"]/app-address/mat-card/button/span[1]/span")),
 
             DELIVERY(By.id("mat-radio-44")),
@@ -23,7 +24,7 @@ public class SelectAddress {
         }
 
         public void selectAndContinue(){
-            WebElement selectAddress = driver.findElement(Using.SELECT.selector);
+            WebElement selectAddress = driver.findElement(Using.SELECT_NEW.selector);
             selectAddress.click();
             WebElement continueButton = driver.findElement(Using.CONTINUE.selector);
             continueButton.click();
