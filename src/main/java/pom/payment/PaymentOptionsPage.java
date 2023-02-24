@@ -5,15 +5,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-public class PaymentOptions {
+public class PaymentOptionsPage {
     private enum Using {
         ADD_NEW_CARD(By.id("mat-expansion-panel-header-0")),
+        CARD_NAME_NEW_ID(By.id("mat-input-10")),
+        CARD_NAME_NEW_SELECTOR(By.cssSelector("//input[@class='mat-input-element mat-form-field-autofill-control ng-tns-c118-27 ng-untouched ng-pristine ng-invalid cdk-text-field-autofill-monitored']")),
         CARD_NAME(By.id("mat-input-3")),
-        CARD_NUMBER(By.id("mat-input-4")),
-        CARD_MONTH(By.id("mat-input-5")),
-        CARD_YEAR(By.id("mat-input-6")),
+        CARD_NUMBER(By.id("mat-input-11")),
+        CARD_MONTH(By.id("mat-input-12")),
+        CARD_YEAR(By.id("mat-input-13")),
         SUBMIT_CARD(By.id("submitButton")),
         SELECT_CARD_ONLY(By.id("mat-radio-45")),
+
+        SELECT_CARD_EXISTING(By.id("mat-radio-50")),
         CONTINUE_BUTTON(By.xpath("/html/body/app-root/div/mat-sidenav-container/mat-sidenav-content/app-payment/mat-card/div/div[2]/button[2]/span[1]/mat-icon"));
 
        public final By selector;
@@ -25,12 +29,12 @@ public class PaymentOptions {
 
     public WebDriver driver;
 
-    public PaymentOptions(WebDriver driver) {
+    public PaymentOptionsPage(WebDriver driver) {
         this.driver = driver;
     }
 
-    public void enterName(String name) {
-        WebElement cardName = driver.findElement(Using.CARD_NAME.selector);
+    public void enterNameNewCard(String name) {
+        WebElement cardName = driver.findElement(Using.CARD_NAME_NEW_ID.selector);
         cardName.clear();
         cardName.sendKeys(name);
     }
@@ -67,7 +71,7 @@ public class PaymentOptions {
     public void addNewCard_1(WebDriver driver,String name, String cardNumber, int cardMonth, int cardYear){
         WebElement addNewCardOption = driver.findElement(Using.ADD_NEW_CARD.selector);
         addNewCardOption.click();
-        enterName(name);
+        enterNameNewCard(name);
         enterCardNumber(cardNumber);
         //enterMonth(cardMonth);
         //enterYear(cardYear);
@@ -78,7 +82,7 @@ public class PaymentOptions {
     public void addNewCard(WebDriver driver,String name, String cardNumber){
         WebElement addNewCardOption = driver.findElement(Using.ADD_NEW_CARD.selector);
         addNewCardOption.click();
-        enterName(name);
+        enterNameNewCard(name);
         enterCardNumber(cardNumber);
         enterMonth();
         enterYear();
@@ -95,4 +99,15 @@ public class PaymentOptions {
         cardContinueButton.click();
 
      }
+
+
+    public void selectExistingCardAndContinue(){
+
+        WebElement selectCard = driver.findElement(Using.SELECT_CARD_EXISTING.selector);
+        selectCard.click();
+
+        WebElement cardContinueButton = driver.findElement(Using.CONTINUE_BUTTON.selector);
+        cardContinueButton.click();
+
+    }
 }

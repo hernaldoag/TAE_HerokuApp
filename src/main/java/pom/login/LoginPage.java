@@ -51,7 +51,7 @@ public class LoginPage {
         //Builder.moveToElement(driver.findElement(Using.NEW_CUSTOMER_LINK.selector)).click().build().perform();
         CreateAccountPage createNewAccount = new CreateAccountPage(driver);
         Thread.sleep(1000);
-        createNewAccount.createNewUser(driver,"at_juice010@auto.io","AT_2023_at","AT_2023_at",12, "60 seconds" );
+        createNewAccount.createNewUser(driver,"at_juice018@auto.io","AT_2023_at","AT_2023_at",12, "60 seconds" );
     }
 
     public void LoginCorrect(){
@@ -70,11 +70,14 @@ public class LoginPage {
         passwordUser.clear();
         passwordUser.sendKeys(pwd);
     }
-    public void simpleLogin(){
-        enterUserEmail("at_juice010@auto.io");
+    public void simpleLogin() throws Exception{
+        enterUserEmail("at_juice018@auto.io");
         enterUserPWD("AT_2023_at");
         WebElement LoginButton = driver.findElement(Using.LOGIN_BUTTON.selector);
         LoginButton.click();
+        Thread.sleep(2000);
+        WebElement cookie = driver.findElement(Using.COOKIE.selector);
+        cookie.click();
     }
 
     public void enterCustomerEmail(String email) {
@@ -85,7 +88,7 @@ public class LoginPage {
     }
 
     public void simpleLogin_ExistingUser() throws Exception{
-        enterUserEmail("at_juice010@auto.io");
+        enterUserEmail("at_juice017@auto.io");
         enterUserPWD("AT_2023_at");
         WebElement LoginButton = driver.findElement(Using.LOGIN_BUTTON.selector);
         LoginButton.click();

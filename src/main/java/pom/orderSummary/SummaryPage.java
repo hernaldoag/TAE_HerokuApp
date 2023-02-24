@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class Summary {
+public class SummaryPage {
 
     private enum Using {
         CHECKOUT_BUTTON(By.id("checkoutButton")),
@@ -18,7 +18,7 @@ public class Summary {
 
     public WebDriver driver;
 
-    public Summary(WebDriver driver) {
+    public SummaryPage(WebDriver driver) {
         this.driver = driver;
     }
 

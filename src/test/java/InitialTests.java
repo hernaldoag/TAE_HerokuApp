@@ -7,15 +7,15 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pom.address.Address;
+import pom.address.AddressPage;
 import pom.address.SelectAddress;
 import pom.basket.BasketPage;
 import pom.constants.Credentials;
 import pom.login.AllProductsPage;
 import pom.login.LoginPage;
 import pom.login.MainMenuPage;
-import pom.orderSummary.Summary;
-import pom.payment.PaymentOptions;
+import pom.orderSummary.SummaryPage;
+import pom.payment.PaymentOptionsPage;
 import utilities.useful.RandomStrings;
 
 import java.io.File;
@@ -168,60 +168,90 @@ public class InitialTests {
         selectAddress.selectAndContinue();
         selectAddress.selectDelivery();
 
-        PaymentOptions payment = new PaymentOptions(driver);
+        PaymentOptionsPage payment = new PaymentOptionsPage(driver);
         //payment.addNewCard(driver, "Tris Alvarez", "4700000100020003");
         payment.selectCardAndContinue();
-        Summary orderSummary = new Summary(driver);
-        orderSummary.checkoutOrder();
+        SummaryPage orderSummaryPage = new SummaryPage(driver);
+        orderSummaryPage.checkoutOrder();
 
     }
 
+    @Test
+    public void LoginNewAndStartPurchase() throws Exception {
+        getBaseUrl(driver);
+        Thread.sleep(1000);
+        mainPage = new MainMenuPage(driver, jse);
+        mainPage.startLogin();
+
+        LoginPage existingUser = new LoginPage(driver);
+        existingUser.simpleLogin();
+
+        Thread.sleep(2000);
+        //ALl Products
+        AllProductsPage allProductsPage1 = new AllProductsPage(driver);
+        allProductsPage1.addApplePomace();
+
+        Thread.sleep(1000);
+        mainPage.openBasket();
+
+        Thread.sleep(1000);
+        basketPage = new BasketPage(driver);
+        basketPage.startCheckout();
+        Thread.sleep(1000);
+
+
+        AddressPage address = new AddressPage(driver);
+        address.addNewAddress();
+        address.addNewAddress(driver, "Mexico","Testy", "4141046137","90210","403 Forbiden Av", "Tequis", "El Marques");
+
+        SelectAddress selectAddress = new SelectAddress(driver);
+        selectAddress.selectAndContinue();
+        selectAddress.selectDelivery();
+
+        PaymentOptionsPage payment = new PaymentOptionsPage(driver);
+        payment.addNewCard(driver, "Tris Alvarez", "4700000100020003");
+        payment.selectCardAndContinue();
+        SummaryPage orderSummaryPage = new SummaryPage(driver);
+        orderSummaryPage.checkoutOrder();
+    }
     //Existing User
     @Test
     public void LoginExistingAndStartPurchase() throws Exception {
         getBaseUrl(driver);
         Thread.sleep(1000);
-        WebElement dismiss = driver.findElement(By.cssSelector("#mat-dialog-0 > app-welcome-banner > div > div:nth-child(3) > button.mat-focus-indicator.close-dialog.mat-raised-button.mat-button-base.mat-primary.ng-star-inserted"));
-        dismiss.click();
-        WebElement account = driver.findElement(By.id("navbarAccount"));
-        jse.executeScript("arguments[0].click()", account);
-
-        WebElement LoginButton = driver.findElement(By.id("navbarLoginButton"));
-        LoginButton.click();
+        mainPage = new MainMenuPage(driver, jse);
+        mainPage.startLogin();
 
         LoginPage existingUser = new LoginPage(driver);
-        existingUser.simpleLogin_ExistingUser();
+        existingUser.simpleLogin();
 
-        System.out.println("Login successful");
         Thread.sleep(2000);
         //ALl Products
-        WebElement AppleJuice = driver.findElement(By.xpath("/html/body/app-root/div/mat-sidenav-container/mat-sidenav-content/app-search-result/div/div/div[2]/mat-grid-list/div/mat-grid-tile[1]/div/mat-card/div[2]/button/span[1]/span"));
-        AppleJuice.click();
-        Thread.sleep(1000);
-        WebElement basket = driver.findElement(By.xpath("//*[contains(text(), 'Your Basket')]"));
-        //span[(@class='mat-button-wrapper')]//[text(),"Your Basket"]
-        basket.click();
-        Thread.sleep(1000);
-        System.out.println("Basket was opened");
+        AllProductsPage allProductsPage1 = new AllProductsPage(driver);
+        allProductsPage1.addApplePomace();
 
-        WebElement checkout = driver.findElement(By.id("checkoutButton"));
-        checkout.click();
         Thread.sleep(1000);
-        /*
-        WebElement addNewAddress = driver.findElement(By.xpath("//*[@id=\"card\"]/app-address/mat-card/div/button/span[1]/span"));
-        addNewAddress.click();
-        Address address = new Address(driver);
-        address.addNewAddress(driver, "Mexico","Testy", "4141046137","90210","403 Forbiden Av", "Tequis", "El Marques");
-        */
+        mainPage.openBasket();
+
+        Thread.sleep(1000);
+        basketPage = new BasketPage(driver);
+        basketPage.startCheckout();
+        Thread.sleep(1000);
+
+
+        //AddressPage address = new AddressPage(driver);
+        //address.addNewAddress();
+        //address.addNewAddress(driver, "Mexico","Testy", "4141046137","90210","403 Forbiden Av", "Tequis", "El Marques");
+
         SelectAddress selectAddress = new SelectAddress(driver);
         selectAddress.selectAndContinue();
         selectAddress.selectDelivery();
 
-        PaymentOptions payment = new PaymentOptions(driver);
+        PaymentOptionsPage payment = new PaymentOptionsPage(driver);
         //payment.addNewCard(driver, "Tris Alvarez", "4700000100020003");
         payment.selectCardAndContinue();
-        Summary orderSummary = new Summary(driver);
-        orderSummary.checkoutOrder();
+        SummaryPage orderSummaryPage = new SummaryPage(driver);
+        orderSummaryPage.checkoutOrder();
     }
 
     @Test
@@ -234,7 +264,6 @@ public class InitialTests {
         LoginPage existingUser = new LoginPage(driver);
         existingUser.simpleLogin_ExistingUser();
 
-        System.out.println("Login successful");
         Thread.sleep(2000);
         //ALl Products
         AllProductsPage allProductsPage1 = new AllProductsPage(driver);
@@ -244,14 +273,50 @@ public class InitialTests {
         mainPage.openBasket();
 
         Thread.sleep(1000);
-        System.out.println("Basket was opened");
         basketPage = new BasketPage(driver);
         basketPage.startCheckout();
         Thread.sleep(1000);
 
-       // WebElement addNewAddress = driver.findElement(By.xpath("//*[@id=\"card\"]/app-address/mat-card/div/button/span[1]/span"));
-        //addNewAddress.click();
-        Address address = new Address(driver);
+        //AddressPage address = new AddressPage(driver);
+        //address.addNewAddress();
+        //address.addNewAddress(driver, "Mexico","Testy", "4141046137","90210","403 Forbiden Av", "Tequis", "El Marques");
+
+        SelectAddress selectAddress = new SelectAddress(driver);
+        selectAddress.selectAndContinue();
+        selectAddress.selectDelivery();
+
+        PaymentOptionsPage payment = new PaymentOptionsPage(driver);
+        payment.addNewCard(driver, "Tris Alvarez", "4700000100020003");
+        payment.selectCardAndContinue();
+        SummaryPage orderSummaryPage = new SummaryPage(driver);
+        orderSummaryPage.checkoutOrder();
+    }
+
+
+    @Test
+    public void PurchaseMultipleItems() throws Exception {
+        getBaseUrl(driver);
+        Thread.sleep(1000);
+        mainPage = new MainMenuPage(driver, jse);
+        mainPage.startLogin();
+
+        LoginPage existingUser = new LoginPage(driver);
+        existingUser.simpleLogin();
+
+        Thread.sleep(2000);
+        //ALl Products
+        AllProductsPage allProductsPage1 = new AllProductsPage(driver);
+        allProductsPage1.addAllToBasketAction();
+        Thread.sleep(1000);
+
+        mainPage.openBasket();
+
+        Thread.sleep(1000);
+        basketPage = new BasketPage(driver);
+        basketPage.startCheckout();
+        Thread.sleep(1000);
+
+        AddressPage address = new AddressPage(driver);
         address.addNewAddress();
         address.addNewAddress(driver, "Mexico","Testy", "4141046137","90210","403 Forbiden Av", "Tequis", "El Marques");
 
@@ -259,13 +324,12 @@ public class InitialTests {
         selectAddress.selectAndContinue();
         selectAddress.selectDelivery();
 
-        PaymentOptions payment = new PaymentOptions(driver);
+        PaymentOptionsPage payment = new PaymentOptionsPage(driver);
         payment.addNewCard(driver, "Tris Alvarez", "4700000100020003");
         payment.selectCardAndContinue();
-        Summary orderSummary = new Summary(driver);
-        orderSummary.checkoutOrder();
+        SummaryPage orderSummaryPage = new SummaryPage(driver);
+        orderSummaryPage.checkoutOrder();
     }
-
 
     @Test
     public void AddReview() throws Exception {

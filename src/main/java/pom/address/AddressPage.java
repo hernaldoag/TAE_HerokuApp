@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import utilities.base.Base;
 
-public class Address {
+public class AddressPage {
 
     private enum Using{
         ADD_NEW_ADRESS(By.cssSelector("button[aria-label='Add a new address']")),
@@ -26,7 +26,7 @@ public class Address {
 
     private Base base;
 
-    public Address(WebDriver driver) {
+    public AddressPage(WebDriver driver) {
         this.driver = driver;
     }
 
