@@ -51,7 +51,7 @@ public class LoginPage {
         //Builder.moveToElement(driver.findElement(Using.NEW_CUSTOMER_LINK.selector)).click().build().perform();
         CreateAccountPage createNewAccount = new CreateAccountPage(driver);
         Thread.sleep(1000);
-        createNewAccount.createNewUser(driver,"at_juice018@auto.io","AT_2023_at","AT_2023_at",12, "60 seconds" );
+        createNewAccount.createNewUser(driver,"at_juice017@auto.io","AT_2023_at","AT_2023_at",12, "60 seconds" );
     }
 
     public void LoginCorrect(){
@@ -71,7 +71,7 @@ public class LoginPage {
         passwordUser.sendKeys(pwd);
     }
     public void simpleLogin() throws Exception{
-        enterUserEmail("at_juice018@auto.io");
+        enterUserEmail("at_juice017@auto.io");
         enterUserPWD("AT_2023_at");
         WebElement LoginButton = driver.findElement(Using.LOGIN_BUTTON.selector);
         LoginButton.click();

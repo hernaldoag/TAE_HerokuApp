@@ -25,9 +25,10 @@ public class BasketPage {
         this.driver = driver;
     }
 
-    public void startCheckout(){
+    public void startCheckout() throws Exception{
         base = new Base(driver);
         base.click(Using.CHECKOUT.selector);
+        Thread.sleep(1000);
     }
 
 
