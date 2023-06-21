@@ -8,14 +8,14 @@ import org.openqa.selenium.support.ui.Select;
 public class PaymentOptionsPage {
     private enum Using {
         ADD_NEW_CARD(By.id("mat-expansion-panel-header-0")),
-        CARD_NAME_NEW_ID(By.id("mat-input-10")),
+        CARD_NAME_NEW_ID(By.id("mat-input-3")),
         CARD_NAME_NEW_SELECTOR(By.cssSelector("//input[@class='mat-input-element mat-form-field-autofill-control ng-tns-c118-27 ng-untouched ng-pristine ng-invalid cdk-text-field-autofill-monitored']")),
         CARD_NAME(By.id("mat-input-3")),
-        CARD_NUMBER(By.id("mat-input-11")),
-        CARD_MONTH(By.id("mat-input-12")),
-        CARD_YEAR(By.id("mat-input-13")),
+        CARD_NUMBER(By.id("mat-input-4")),
+        CARD_MONTH(By.id("mat-input-5")),
+        CARD_YEAR(By.id("mat-input-6")),
         SUBMIT_CARD(By.id("submitButton")),
-        SELECT_CARD_ONLY(By.id("mat-radio-45")),
+        SELECT_CARD_ONLY(By.id("mat-radio-46-input")),
 
         SELECT_CARD_EXISTING(By.id("mat-radio-50")),
         CONTINUE_BUTTON(By.xpath("/html/body/app-root/div/mat-sidenav-container/mat-sidenav-content/app-payment/mat-card/div/div[2]/button[2]/span[1]/mat-icon"));

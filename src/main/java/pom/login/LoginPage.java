@@ -47,11 +47,12 @@ public class LoginPage {
     public void ClickLoginAndCreateAccount() throws Exception{
         clickLoginLink();
         WebElement notUser = driver.findElement(Using.NEW_CUSTOMER_LINK.selector);
+        Thread.sleep(2000);
         notUser.click();
         //Builder.moveToElement(driver.findElement(Using.NEW_CUSTOMER_LINK.selector)).click().build().perform();
         CreateAccountPage createNewAccount = new CreateAccountPage(driver);
         Thread.sleep(1000);
-        createNewAccount.createNewUser(driver,"at_juice017@auto.io","AT_2023_at","AT_2023_at",12, "60 seconds" );
+        createNewAccount.createNewUser(driver,"ha_juice003@auto.io","HA_2023_ah","HA_2023_ah",12, "60 seconds" );
     }
 
     public void LoginCorrect(){
@@ -71,8 +72,8 @@ public class LoginPage {
         passwordUser.sendKeys(pwd);
     }
     public void simpleLogin() throws Exception{
-        enterUserEmail("at_juice017@auto.io");
-        enterUserPWD("AT_2023_at");
+        enterUserEmail("ha_juice003@auto.io");
+        enterUserPWD("HA_2023_ah");
         WebElement LoginButton = driver.findElement(Using.LOGIN_BUTTON.selector);
         LoginButton.click();
         Thread.sleep(2000);
@@ -88,8 +89,8 @@ public class LoginPage {
     }
 
     public void simpleLogin_ExistingUser() throws Exception{
-        enterUserEmail("at_juice017@auto.io");
-        enterUserPWD("AT_2023_at");
+        enterUserEmail("ha_juice003@auto.io");
+        enterUserPWD("HA_2023_ah");
         WebElement LoginButton = driver.findElement(Using.LOGIN_BUTTON.selector);
         LoginButton.click();
         Thread.sleep(2000);

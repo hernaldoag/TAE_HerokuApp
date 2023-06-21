@@ -2,6 +2,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -34,10 +35,14 @@ public class InitialTests {
     @BeforeMethod
     public void setUp() {
         WebDriverManager.chromedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+
+
         driver = new ChromeDriver();
+        options.addArguments("--remote-allow-origins=*");
         jse = (JavascriptExecutor)driver;
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
     }
 
@@ -239,9 +244,9 @@ public class InitialTests {
         Thread.sleep(1000);
 
 
-        //AddressPage address = new AddressPage(driver);
-        //address.addNewAddress();
-        //address.addNewAddress(driver, "Mexico","Testy", "4141046137","90210","403 Forbiden Av", "Tequis", "El Marques");
+        AddressPage address = new AddressPage(driver);
+        address.addNewAddress();
+        address.addNewAddress(driver, "Mexico","Testy", "4141046137","90210","403 Forbiden Av", "Tequis", "El Marques");
 
         SelectAddress selectAddress = new SelectAddress(driver);
         selectAddress.selectAndContinue();
