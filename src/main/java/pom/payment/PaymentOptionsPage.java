@@ -3,23 +3,24 @@ package pom.payment;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 public class PaymentOptionsPage {
     private enum Using {
         ADD_NEW_CARD(By.id("mat-expansion-panel-header-0")),
-        CARD_NAME_NEW_ID(By.id("mat-input-3")),
+        CARD_NAME_NEW_ID(By.id("mat-input-10")),
         CARD_NAME_NEW_SELECTOR(By.cssSelector("//input[@class='mat-input-element mat-form-field-autofill-control ng-tns-c118-27 ng-untouched ng-pristine ng-invalid cdk-text-field-autofill-monitored']")),
         CARD_NAME(By.id("mat-input-3")),
-        CARD_NUMBER(By.id("mat-input-4")),
-        CARD_MONTH(By.id("mat-input-5")),
-        CARD_YEAR(By.id("mat-input-6")),
+        CARD_NUMBER(By.id("mat-input-11")),
+        CARD_MONTH(By.id("mat-input-12")),
+        CARD_YEAR(By.id("mat-input-13")),
         SUBMIT_CARD(By.id("submitButton")),
         SELECT_CARD_ONLY(By.id("mat-radio-46-input")),
 
         SELECT_CARD_EXISTING(By.id("mat-radio-50")),
+        //CONTINUE_BUTTON(By.xpath("/html/body/app-root/div/mat-sidenav-container/mat-sidenav-content/app-payment/mat-card/div/div[2]/button[2]/span[1]/mat-icon"));
         CONTINUE_BUTTON(By.xpath("/html/body/app-root/div/mat-sidenav-container/mat-sidenav-content/app-payment/mat-card/div/div[2]/button[2]/span[1]/mat-icon"));
-
        public final By selector;
 
         Using(By selector) {
@@ -93,8 +94,10 @@ public class PaymentOptionsPage {
      public void selectCardAndContinue(){
 
         WebElement selectCard = driver.findElement(Using.SELECT_CARD_ONLY.selector);
-        selectCard.click();
-
+        // selectCard.isSelected();
+        //selectCard.click();
+         Actions actions = new Actions(driver);
+         actions.moveToElement(selectCard).click().perform();
         WebElement cardContinueButton = driver.findElement(Using.CONTINUE_BUTTON.selector);
         cardContinueButton.click();
 

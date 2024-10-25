@@ -12,7 +12,7 @@ import java.util.List;
 public class SelectAddress {
         private enum Using {
             SELECT_NEW(By.id("mat-radio-42")),
-            SELECT_EXISTING(By.id("mat-radio-46")),
+            SELECT_EXISTING(By.id("mat-radio-42")),
             SELECT_EXISTING_CARD(By.xpath("//*[@id='card']")),
             CONTINUE(By.xpath("//*[@id=\"card\"]/app-address/mat-card/button/span[1]/span")),
 
@@ -52,7 +52,9 @@ public class SelectAddress {
     public void selectExistingAddress() throws Exception{
         jse = (JavascriptExecutor)driver;
         Actions action = new Actions(driver);
-        List<WebElement> all = driver.findElements(Using.SELECT_EXISTING.selector);
+        //List<WebElement> all = driver.findElements(Using.SELECT_EXISTING.selector);
+
+        /***
         System.out.println(all.size());
 
         for(int i = 0; i < all.size(); i++){
@@ -72,7 +74,7 @@ public class SelectAddress {
             WebElement submitReview = driver.findElement(Using.SUBMIT_APPLEJUICE.selector);
             submitReview.click();
             close.click();
-            Thread.sleep(2000);*/
-        }
+            Thread.sleep(2000);
+        } **/
     }
 }

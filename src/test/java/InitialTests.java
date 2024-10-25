@@ -244,12 +244,12 @@ public class InitialTests {
         Thread.sleep(1000);
 
 
-        AddressPage address = new AddressPage(driver);
-        address.addNewAddress();
-        address.addNewAddress(driver, "Mexico","Testy", "4141046137","90210","403 Forbiden Av", "Tequis", "El Marques");
+        //AddressPage address = new AddressPage(driver);
+        //address.addNewAddress();
+        //address.addNewAddress(driver, "Mexico","Testy", "4141046137","90210","403 Forbiden Av", "Tequis", "El Marques");
 
         SelectAddress selectAddress = new SelectAddress(driver);
-        selectAddress.selectAndContinue();
+        selectAddress.selectAndContinueExisting();
         selectAddress.selectDelivery();
 
         PaymentOptionsPage payment = new PaymentOptionsPage(driver);
@@ -291,8 +291,9 @@ public class InitialTests {
         selectAddress.selectDelivery();
 
         PaymentOptionsPage payment = new PaymentOptionsPage(driver);
-        payment.addNewCard(driver, "Tris Alvarez", "4700000100020003");
+        //payment.addNewCard(driver, "Tris Alvarez", "4700000100020003");
         payment.selectCardAndContinue();
+
         SummaryPage orderSummaryPage = new SummaryPage(driver);
         orderSummaryPage.checkoutOrder();
     }
